@@ -11,7 +11,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow",
+    "flow stop": "flow stop",
+    "flow-coverage": "flow-coverage-report -i 'src/**/*.js' -i 'src/**/*.jsx' -x 'src/test/**' -t html -t json -t text --threshold 90"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +30,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-flow": "^7.0.0",
+    "flow-bin": "^0.105.2",
+    "flow-coverage-report": "^0.6.1",
+    "jest-mock-random": "^1.0.2",
+    "prettier": "1.18.2",
+    "react-test-renderer": "^16.9.0"
   }
 }

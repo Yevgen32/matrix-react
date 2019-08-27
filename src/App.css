@@ -1,33 +1,166 @@
-.App {
-  text-align: center;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #e6f4fd;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+input {
+  margin: 10px 2px;
+  width: 85%;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.formMatrix {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-around;
 }
 
-.App-link {
+.fullPage {
+  display: flex;
+  justify-content: space-between;
+}
+.block {
   color: #61dafb;
+  font-size: 36px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#matrixPlace {
+  background-color: #e6f4fd;
+  margin: 0 auto;
+  border-radius: 15px;
+  /*width: 80%;*/
+}
+
+.form-row {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.sumRow:hover {
+  background-color: palegreen;
+}
+
+td {
+  background-color: white;
+  border: 1px solid silver;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 20%;
+  will-change: contents;
+  /*transform: translateZ(0);*/
+}
+
+.comingItemStyle:hover {
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+  color: white;
+  background-color: #ffcbcd !important;
+  font-weight: bold;
+}
+.matrixCellElem:hover {
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+  color: white;
+  background-color: #ffcbcd !important;
+  font-weight: bold;
+}
+
+
+.sumColumn {
+  color: #384866;
+  font-weight: bold;
+}
+
+.sumRow {
+  color: darkblue;
+  font-weight: bold;
+}
+
+.percentActive {
+  background-color: palegreen;
+}
+
+/*.activeItem {*/
+/*color: white;*/
+/*background-color: #ffcbcd !important;*/
+/*font-weight: bold;*/
+/*}*/
+
+.comingItemStyle {
+  color: white;
+  background-color: #cfe6f4;
+  font-weight: bold;
+}
+
+.elemCreate {
+  width: 100%;
+  line-height: 42px;
+  background: #4a90e2;
+  border-width: 0;
+  color: white;
+  font-size: 20px;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.informationPlace {
+  color: orangered;
+  font-weight: bold;
+}
+
+.form-row input {
+  display: block;
+  width: 100%;
+  padding: 0 10px;
+  line-height: 40px;
+  font-family: 'Roboto', sans-serif;
+  background: none;
+  border-width: 0;
+  border-bottom: 2px solid #4a90e2;
+  transition: all 0.2s ease;
+}
+
+.ui-form {
+  padding: 0 30px 30px 30px;
+  background: white;
+}
+
+.ui-form h4 {
+  position: relative;
+  text-align: center;
+  color: #4a90e2;
+  font-size: 17px;
+  font-weight: normal;
+  margin-bottom: 45px;
+}
+
+.form-row label {
+  position: absolute;
+  left: 13px;
+  color: #9d959d;
+  font-size: 20px;
+  font-weight: 300;
+  transform: translateY(-35px);
+  transition: all 0.2s ease;
+}
+
+.form-row input:focus {
+  outline: 0;
+  border-color: #4a90e2;
+}
+
+.form-row input:focus + label,
+.form-row input:valid + label {
+  transform: translateY(-60px);
+  margin-left: -14px;
+  font-size: 14px;
+  font-weight: 400;
+  outline: 0;
+  border-color: #4a90e2;
+  color: #4a90e2;
 }
