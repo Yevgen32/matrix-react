@@ -154,8 +154,6 @@
 //   }
 // }
 
-
-
 // @flow
 
 import React, { Component } from "react";
@@ -188,9 +186,11 @@ export default class App extends Component {
     };
   };
 
-  createMatrix = (rows:number, cols:number): {} =>
-    Array.from({ length: cols }, () => Array.from({ length: rows }, () =>
-          this.getObjectCell(this.getRandomNumber(100, 999)))
+  createMatrix = (rows: number, cols: number): {} =>
+    Array.from({ length: cols }, () =>
+      Array.from({ length: rows }, () =>
+        this.getObjectCell(this.getRandomNumber(100, 999))
+      )
     );
 
   getSumRow = (matrix: []): [] =>
@@ -213,13 +213,26 @@ export default class App extends Component {
         Math.floor(item / this.state.n)
       );
 
+  counter = (cur: { id: string, amount: number }): [] => {
+    const counterMatrix = this.state.matrix.map((row: []) =>
+        row.map((col: { id: string, amount: number }) =>
+            col.id === cur.id ? {...col, amount: col.amount + 1} : col
+        )
+    );
+    this.setState({
+        matrix: counterMatrix,
+        sumRow: this.getSumRow(counterMatrix),
+        averageCol: this.getAverageCol(counterMatrix)
+    });
+  };
+
   initState = () => {
     const matrix = this.createMatrix(this.state.m, this.state.n);
     const sumRow = this.getSumRow(matrix);
     this.setState({
       matrix: matrix,
       sumRow: sumRow,
-      averageCol: this.getAverageCol(matrix),
+      averageCol: this.getAverageCol(matrix)
       // percentMatrix: this.percentMatrix(matrix, sumRow)
     });
   };
@@ -233,10 +246,17 @@ export default class App extends Component {
         <table>
           <tbody>
             {this.state.matrix.map((row, i) => (
-              <Row rowIndex={i} key={i} row={row} sumRow={this.state.sumRow[i]} />
+              <Row
+                rowIndex={i}
+                key={i}
+                onClickElem={this.counter}
+                row={row}
+                sumRow={this.state.sumRow[i]}
+              />
             ))}
-            {this.state.averageCol.length !== 0 ? <Row  row={this.state.averageCol}/> : null}
-
+            {this.state.averageCol.length !== 0 ? (
+              <Row row={this.state.averageCol} />
+            ) : null}
           </tbody>
         </table>
       </div>
