@@ -215,14 +215,14 @@ export default class App extends Component {
 
   counter = (cur: { id: string, amount: number }): [] => {
     const counterMatrix = this.state.matrix.map((row: []) =>
-        row.map((col: { id: string, amount: number }) =>
-            col.id === cur.id ? {...col, amount: col.amount + 1} : col
-        )
+      row.map((col: { id: string, amount: number }) =>
+        col.id === cur.id ? { ...col, amount: col.amount + 1 } : col
+      )
     );
     this.setState({
-        matrix: counterMatrix,
-        sumRow: this.getSumRow(counterMatrix),
-        averageCol: this.getAverageCol(counterMatrix)
+      matrix: counterMatrix,
+      sumRow: this.getSumRow(counterMatrix),
+      averageCol: this.getAverageCol(counterMatrix)
     });
   };
 
@@ -237,7 +237,7 @@ export default class App extends Component {
     });
   };
 
-  render() {
+    render() {
     return (
       <div>
         <button className="elemCreate" onClick={this.initState}>
@@ -248,6 +248,7 @@ export default class App extends Component {
             {this.state.matrix.map((row, i) => (
               <Row
                 rowIndex={i}
+                matrix={this.state.matrix}
                 key={i}
                 onClickElem={this.counter}
                 row={row}
