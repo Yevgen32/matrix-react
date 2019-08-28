@@ -1,4 +1,4 @@
-// // @flow
+//
 // import React, { Component } from "react";
 // import Row from "./row";
 // import "./App.css";
@@ -154,6 +154,10 @@
 //   }
 // }
 
+
+
+// @flow
+
 import React, { Component } from "react";
 import Row from "./Row.js";
 import "./App.css";
@@ -184,34 +188,30 @@ export default class App extends Component {
     };
   };
 
-  createMatrix = (rows, cols) =>
-    Array.from({ length: cols }, (row, i) => {
-      return {
-        [i]: Array.from({ length: rows }, () =>
-          this.getObjectCell(this.getRandomNumber(100, 999))
-        )
-      };
-    });
+  createMatrix = (rows:number, cols:number): {} =>
+    Array.from({ length: cols }, () => Array.from({ length: rows }, () =>
+          this.getObjectCell(this.getRandomNumber(100, 999)))
+    );
 
   getSumRow = (matrix: []): [] =>
-    matrix.map((item: [], i) =>
-      item[i].reduce((acc, cur: { id: string, amount: number }) => {
+    matrix.map((item: []) =>
+      item.reduce((acc, cur: { id: string, amount: number }) => {
         return acc + cur.amount;
       }, 0)
     );
 
-  // getAverageCol = (matrix: []): [] =>
-  //   matrix
-  //     .flatMap((it: [], index) => it[index])
-  //     .reduce(
-  //       (acc, item: { id: string, amount: number }, i) => (
-  //         (acc[i % matrix[0].length] += item[i].amount), acc
-  //       ),
-  //       Array.apply(0, Array(matrix[0].length)).map(() => 0)
-  //     )
-  //     .map((item: { id: string, amount: number }) =>
-  //       Math.floor(item / this.state.n)
-  //     );
+  getAverageCol = (matrix: []): [] =>
+    matrix
+      .flatMap((it: []) => it)
+      .reduce(
+        (acc, item: { id: string, amount: number }, i) => (
+          (acc[i % matrix[0].length] += item.amount), acc
+        ),
+        Array.apply(0, Array(matrix[0].length)).map(() => 0)
+      )
+      .map((item: { id: string, amount: number }) =>
+        Math.floor(item / this.state.n)
+      );
 
   initState = () => {
     const matrix = this.createMatrix(this.state.m, this.state.n);
@@ -219,7 +219,7 @@ export default class App extends Component {
     this.setState({
       matrix: matrix,
       sumRow: sumRow,
-      // averageCol: this.getAverageCol(matrix)
+      averageCol: this.getAverageCol(matrix),
       // percentMatrix: this.percentMatrix(matrix, sumRow)
     });
   };
@@ -233,8 +233,10 @@ export default class App extends Component {
         <table>
           <tbody>
             {this.state.matrix.map((row, i) => (
-              <Row index={i} key={i} row={row} sumRow={this.state.sumRow} />
+              <Row rowIndex={i} key={i} row={row} sumRow={this.state.sumRow[i]} />
             ))}
+            {this.state.averageCol.length !== 0 ? <Row  row={this.state.averageCol}/> : null}
+
           </tbody>
         </table>
       </div>
