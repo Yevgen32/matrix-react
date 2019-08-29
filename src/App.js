@@ -154,7 +154,7 @@
 //   }
 // }
 
-// @flow
+// flow
 
 import React, { Component } from "react";
 import Row from "./Row.js";
@@ -162,12 +162,14 @@ import "./App.css";
 
 export default class App extends Component {
   state = {
-    m: 5,
-    n: 6,
-    x: 12,
+    m: 10,
+    n: 7,
+    x: 7,
     matrix: [],
     sumRow: [],
-    averageCol: []
+    averageCol: [],
+    comingItem: [],
+    currentValue: {}
   };
 
   getRandomNumber = (min: number, max: number) =>
@@ -219,6 +221,7 @@ export default class App extends Component {
         col.id === cur.id ? { ...col, amount: col.amount + 1 } : col
       )
     );
+    this.getComingItem(cur);
     this.setState({
       matrix: counterMatrix,
       sumRow: this.getSumRow(counterMatrix),
@@ -233,11 +236,36 @@ export default class App extends Component {
       matrix: matrix,
       sumRow: sumRow,
       averageCol: this.getAverageCol(matrix)
-      // percentMatrix: this.percentMatrix(matrix, sumRow)
     });
   };
 
-    render() {
+
+
+  getComingItem = cur => {
+    const comingItem = Array.from(
+      this.state.matrix.flatMap((cell: { id: string, amount: number }) => cell)
+    )
+      .sort(
+        (
+          a: { id: string, amount: number },
+          b: { id: string, amount: number }
+        ) => Math.abs(cur.amount - a.amount) - Math.abs(cur.amount - b.amount)
+      )
+      .slice(0, Number(this.state.x) + 1)
+      .map(elem => elem.id);
+
+    this.setState({
+      comingItem: comingItem
+    });
+  };
+
+  clearStateComing = () => {
+      this.setState({
+          comingItem: []
+      })
+  };
+
+  render() {
     return (
       <div>
         <button className="elemCreate" onClick={this.initState}>
@@ -247,12 +275,16 @@ export default class App extends Component {
           <tbody>
             {this.state.matrix.map((row, i) => (
               <Row
-                rowIndex={i}
+                percentRow={this.getPercentRow}
                 matrix={this.state.matrix}
+                getComingItem={this.getComingItem}
+                comingItem={this.state.comingItem}
+                rowIndex={i}
                 key={i}
                 onClickElem={this.counter}
                 row={row}
                 sumRow={this.state.sumRow[i]}
+                clearStateComing={this.clearStateComing}
               />
             ))}
             {this.state.averageCol.length !== 0 ? (
