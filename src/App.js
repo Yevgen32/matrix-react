@@ -164,7 +164,7 @@ export default class App extends Component {
   state = {
     m: 10,
     n: 7,
-    x: 7,
+    x: 3,
     matrix: [],
     sumRow: [],
     averageCol: [],
