@@ -159,7 +159,7 @@ import "./App.css";
 const App = () => {
   const [m] = useState(5);
   const [n] = useState(5);
-  const [x] = useState(10);
+  const [x] = useState(3);
   const [matrix, setMatrix] = useState([]);
   const [sumRow, setSumRow] = useState([]);
   const [averageCol, setAverageCol] = useState([]);
@@ -260,8 +260,12 @@ const App = () => {
       setPercentRow(percentRowArray);
         setIndexSumRow(rowI);
     }else if (!rowI) {
-        setPercentRow([]);
+        setIndexSumRow(null);
     }
+  };
+
+  const clearState = () => {
+      setIndexSumRow(null);
   };
 
   return (
@@ -270,23 +274,23 @@ const App = () => {
       <table
         onClick={event => counter(event)}
         onMouseOver={event => hover(event)}
-        // onMouseOut={event => clearState(event)}
+        onMouseLeave={clearState}
       >
         <tbody>
           {matrix.map((row, rowI) => (
             <Row
-                // eslint-disable-next-line
+              // eslint-disable-next-line
               isPercent={indexSumRow == rowI}
               rowSumIndex={indexSumRow}
               key={rowI}
-              rowI={rowI}
+              indexRow={rowI}
               sumRow={sumRow[rowI]}
               row={row}
               percentRow={percentRow}
               comingItems={comingItems}
             />
           ))}
-          {averageCol.length !== 0 ? <Row key={generationId()} row={averageCol} /> : null}
+          {averageCol.length !== 0 ? <Row row={averageCol} /> : null}
         </tbody>
       </table>
     </div>
