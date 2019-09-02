@@ -152,15 +152,14 @@
 //   }
 // }
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Row from "./Row";
 import "./App.css";
-import Cell from "./Cell";
 
-export default function() {
-  const [m, setM] = useState(6);
-  const [n, setN] = useState(4);
-  const [x, setX] = useState(3);
+const App = () => {
+  const [m] = useState(5);
+  const [n] = useState(5);
+  const [x] = useState(10);
   const [matrix, setMatrix] = useState([]);
   const [sumRow, setSumRow] = useState([]);
   const [averageCol, setAverageCol] = useState([]);
@@ -203,18 +202,19 @@ export default function() {
       .flatMap((it: []) => it)
       .reduce(
         (acc, item: { id: string, amount: number }, i) => (
+            // eslint-disable-next-line
           (acc[i % matrix[0].length] += item.amount), acc
         ),
         Array.apply(0, Array(matrix[0].length)).map(() => 0)
       )
       .map((item: { id: string, amount: number }) => Math.floor(item / n));
 
-  function initState() {
+   const initState = () => {
     const matrix = createMatrix(m, n);
     setMatrix(matrix);
     setSumRow(getSumRow(matrix));
     setAverageCol(getAverageCol(matrix));
-  }
+  };
 
   const counter = event => {
     const matrixAfterCounter = matrix.map(row =>
@@ -233,7 +233,7 @@ export default function() {
   const hover = event => {
     const rowI = event.target.getAttribute("row-i");
     const cellId = event.target.getAttribute("cellId");
-    if (event.target.tagName === "TD" && event.target.getAttribute("cell-id")) {
+    if (event.target.getAttribute("cell-id")) {
       const comingItem = Array.from(
         matrix.flatMap((cell: { id: string, amount: number }) => cell)
       )
@@ -259,7 +259,6 @@ export default function() {
       );
       setPercentRow(percentRowArray);
         setIndexSumRow(rowI);
-        console.log(rowI)
     }else if (!rowI) {
         setPercentRow([]);
     }
@@ -276,6 +275,7 @@ export default function() {
         <tbody>
           {matrix.map((row, rowI) => (
             <Row
+                // eslint-disable-next-line
               isPercent={indexSumRow == rowI}
               rowSumIndex={indexSumRow}
               key={rowI}
@@ -286,9 +286,11 @@ export default function() {
               comingItems={comingItems}
             />
           ))}
-          {averageCol.length !== 0 ? <Row key row={averageCol} /> : null}
+          {averageCol.length !== 0 ? <Row key={generationId()} row={averageCol} /> : null}
         </tbody>
       </table>
     </div>
   );
-}
+};
+
+export default App;
