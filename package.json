@@ -35,6 +35,7 @@
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/preset-flow": "^7.0.0",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "flow-bin": "^0.105.2",
     "flow-coverage-report": "^0.6.1",
     "jest-mock-random": "^1.0.2",
