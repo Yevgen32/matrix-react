@@ -62,58 +62,6 @@ const App = () => {
     setAverageCol(getAverageCol(matrix));
   }
 
-  // const counter = event => {
-  //   const matrixAfterCounter = matrix.map(row =>
-  //     row.map(col =>
-  //       col.id === event.target.getAttribute("cell-id")
-  //         ? { ...col, amount: col.amount + 1 }
-  //         : col
-  //     )
-  //   );
-  //   setMatrix(matrixAfterCounter);
-  //   setSumRow(getSumRow(matrixAfterCounter));
-  //   setAverageCol(getAverageCol(matrixAfterCounter));
-  //   hover(event)
-  // };
-
-  // const hover = event => {
-  //   const rowI = event.target.getAttribute("row-i");
-  //   const cellId = event.target.getAttribute("cellId");
-  //   if (event.target.tagName === "TD" && event.target.getAttribute("cell-id")) {
-  //     const comingItem = Array.from(
-  //       matrix.flatMap((cell: { id: string, amount: number }) => cell)
-  //     )
-  //       .sort(
-  //         (
-  //           a: { id: string, amount: number },
-  //           b: { id: string, amount: number }
-  //         ) =>
-  //           Math.abs(event.target.innerHTML - a.amount) -
-  //           Math.abs(event.target.innerHTML - b.amount)
-  //       )
-  //       .slice(0, Number(x) + 1)
-  //       .map((elem: {}) => {
-  //         return elem.id;
-  //       });
-  //     setComingItems(comingItem);
-  //   } else if (!cellId) {
-  //     setComingItems([]);
-  //   }
-  //   if (rowI) {
-  //     const percentRowArray = matrix[rowI].map(cell =>
-  //       parseFloat((cell.amount * 100) / sumRow[rowI]).toFixed(1)
-  //     );
-  //     setPercentRow(percentRowArray);
-  //       setIndexSumRow(rowI);
-  //       console.log(rowI)
-  //   }else if (!rowI) {
-  //       setPercentRow([]);
-  //   }
-  // };
-  // matrixCellElem
-  // sumColumn
-  // sumRow
-
   const counter = (cur) => {
     const matrixCount = matrix.map((row)=>row.map((col)=> col.id===cur.id ? {...col, amount: col.amount+1}:col))
     setMatrix(matrixCount);
@@ -146,9 +94,9 @@ const App = () => {
       <table>
         <tbody>
           {matrix.map((row, rowI) => (
-            <Rows
+            <Row
                 getComingItems={getComingItems}
-                isComingRow={}
+                // isComingRow={}
               // isPercent={indexSumRow == rowI}
               // rowSumIndex={indexSumRow}
               key={rowI}
