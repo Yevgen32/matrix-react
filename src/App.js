@@ -2,10 +2,8 @@
 import React, { Component } from "react";
 import Row from "./Row.js";
 import "./App.css";
-import Cell from "./Cell";
 
 type Props = {};
-
 type State = {
   m: number,
   n: number,
@@ -18,13 +16,15 @@ type State = {
 
 export default class App extends Component<Props, State> {
   state = {
-    m: 10,
-    n: 7,
-    x: 3,
+    m: 20,
+    n: 20,
+    x: 10,
     matrix: [],
     sumRow: [],
     averageCol: [],
-    comingItem: []
+    comingItem: [],
+    percentRow: [],
+    indexSum: null
   };
 
   getRandomNumber = (min: number, max: number) =>
@@ -114,12 +114,28 @@ export default class App extends Component<Props, State> {
     });
   };
 
+  getPercentRow = indexSum => {
+    const percentRow = this.state.matrix[indexSum].map(cell =>
+      parseFloat((cell.amount * 100) / this.state.sumRow[indexSum]).toFixed(1)
+    );
+    this.setState({ percentRow: percentRow, indexSum: indexSum });
+  };
+
+  clearStateIndexSumRow = () => {
+    this.setState({
+      indexSum: null,
+        percentRow: []
+    });
+  };
 
   clearStateComing = () => {
     this.setState({
       comingItem: []
     });
   };
+
+  setIsComingRowBool = (row) => row.map((cell)=> this.state.comingItem.some((col)=> col.id===cell.id)).some(col=>col);
+    
 
   render() {
     return (
@@ -131,19 +147,22 @@ export default class App extends Component<Props, State> {
           <tbody>
             {this.state.matrix.map((row: [], i: number) => (
               <Row
-                matrix={this.state.matrix}
-                getComingItem={this.getComingItem}
-                comingItem={this.state.comingItem}
-                rowIndex={i}
                 key={i}
+                row={i === this.state.indexSum ? this.state.percentRow : row}
                 onClickElem={this.counter}
-                row={row}
                 sumRow={this.state.sumRow[i]}
+                comingItem={this.state.comingItem}
+                getComingItem={this.getComingItem}
+                getPercentRow={this.getPercentRow}
+                rowIndex={i}
+                percentRow={this.state.percentRow}
+                isComingRowBool={this.setIsComingRowBool(row)}
                 clearStateComing={this.clearStateComing}
+                clearStateIndexSumRow={this.clearStateIndexSumRow}
               />
             ))}
             {this.state.averageCol.length !== 0 ? (
-              <Row row={this.state.averageCol} />
+              <Row classAverageCol='sumColumn' row={this.state.averageCol} />
             ) : null}
           </tbody>
         </table>
@@ -151,10 +170,6 @@ export default class App extends Component<Props, State> {
     );
   }
 }
-
-
-
-
 
 // import React, { useState } from "react";
 // import Row from "./Row";
