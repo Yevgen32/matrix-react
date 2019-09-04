@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Row from "./Row";
 import "./App.css";
-import Cell from "./Cell";
 
 const App = () => {
   const [m] = useState(6);
@@ -88,27 +87,34 @@ const App = () => {
         setComingItems(comingItem);
   };
 
+  const clearStateComing = () => setComingItems([]);
+
   return (
     <div>
-      <button className='elemCreate' onClick={initState}>create</button>
+      <button className="elemCreate" onClick={initState}>
+        create
+      </button>
       <table>
         <tbody>
           {matrix.map((row, rowI) => (
             <Row
-                getComingItems={getComingItems}
-                // isComingRow={}
+              getComingItems={getComingItems}
+              // isComingRow={}
               // isPercent={indexSumRow == rowI}
               // rowSumIndex={indexSumRow}
+              clearStateComing={clearStateComing}
               key={rowI}
               rowI={rowI}
               sumRow={sumRow[rowI]}
               row={row}
               counter={counter}
               // percentRow={percentRow}
-              // comingItems={comingItems}
+              comingItems={comingItems}
             />
           ))}
-          {averageCol.length!==0 ? <Row key='rowKey1' row={averageCol} averageCol='sumColumn'/>: null}
+          {averageCol.length !== 0 ? (
+            <Row key="rowKey1" classAverageCol="sumColumn" row={averageCol} />
+          ) : null}
         </tbody>
       </table>
     </div>
