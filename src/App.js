@@ -18,9 +18,9 @@ type State = {
 
 export default class App extends Component<Props, State> {
   state = {
-    m: 20,
-    n: 20,
-    x: 10,
+    m: 100,
+    n: 100,
+    x: 30,
     matrix: [],
     sumRow: [],
     averageCol: [],
@@ -137,6 +137,7 @@ export default class App extends Component<Props, State> {
     });
   };
 
+  //
   setIsComingRowBool = (row: [{ id: string, amount: number }]) =>
     row
       .map(cell => this.state.comingItem.some((col: string) => col === cell.id))
@@ -162,6 +163,7 @@ export default class App extends Component<Props, State> {
                   getPercentRow={this.getPercentRow}
                   rowIndex={i}
                   percentRow={this.state.percentRow}
+                  //bool
                   isComingRowBool={this.setIsComingRowBool(row)}
                   clearStateComing={this.clearStateComing}
                   clearStateIndexSumRow={this.clearStateIndexSumRow}
