@@ -6,7 +6,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #e6f4fd;
+  user-select: none;
+  -moz-user-select: none;
 }
+
 input {
   margin: 10px 2px;
   width: 85%;

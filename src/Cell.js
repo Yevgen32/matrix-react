@@ -8,20 +8,39 @@ const Cell = ({
   updateCurCounter,
   updateCurComing,
   isComingCell,
-  clearStateComing
+  clearStateComing,
+  getPercentRow,
+  rowI,
+  clearStateRowPercent,
+  changeBackgroundPercent
 }) => {
   const hover = () => {
-    if (updateCurComing) {
+    if (updateCurComing && cellValue) {
       updateCurComing(cellValue);
-    } else if (!updateCurComing) {
-        clearStateComing()
+    }
+    if (getPercentRow && !cellValue) {
+      getPercentRow(rowI);
+    }
+    // else if (!updateCurComing) {
+    //     clearStateComing()
+    // }
+  };
+
+  const leaveCurson = () => {
+    if (clearStateComing !== undefined) {
+      clearStateComing();
+    }
+    if (clearStateRowPercent !== undefined) {
+      clearStateRowPercent();
     }
   };
 
   return (
     <td
-      onClick={() => updateCurCounter(cellValue)}
+      onClick={cellValue!==undefined ? () => updateCurCounter(cellValue): null}
       onMouseEnter={hover}
+      onMouseLeave={leaveCurson}
+      style={changeBackgroundPercent}
       className={
         isComingCell
           ? "comingItemStyle"
@@ -33,4 +52,14 @@ const Cell = ({
   );
 };
 
-export default Cell;
+const cellEqual = (prevProps, nextProps) => {
+  if (prevProps.col !== nextProps.col) {
+    return false;
+  }
+  if (prevProps.isComingCell !== nextProps.isComingCell) {
+    return false;
+  }
+  return true;
+};
+
+export default React.memo(Cell, cellEqual);

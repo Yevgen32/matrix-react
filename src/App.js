@@ -3,15 +3,13 @@ import Row from "./Row";
 import "./App.css";
 
 const App = () => {
-  const [m] = useState(6);
-  const [n] = useState(4);
-  const [x] = useState(3);
+  const [m] = useState(20);
+  const [n] = useState(20);
+  const [x] = useState(10);
   const [matrix, setMatrix] = useState([]);
   const [sumRow, setSumRow] = useState([]);
   const [averageCol, setAverageCol] = useState([]);
   const [comingItems, setComingItems] = useState([]);
-  const [percentRow, setPercentRow] = useState([]);
-  const [indexSumRow, setIndexSumRow] = useState(null);
 
   const getRandomNumber = (min: number, max: number) =>
     Math.floor(Math.random() * (max - min) + min);
@@ -61,33 +59,43 @@ const App = () => {
     setAverageCol(getAverageCol(matrix));
   }
 
-  const counter = (cur) => {
-    const matrixCount = matrix.map((row)=>row.map((col)=> col.id===cur.id ? {...col, amount: col.amount+1}:col))
+  const counter = cur => {
+    const matrixCount = matrix.map(row =>
+      row.map(col =>
+        col.id === cur.id ? { ...col, amount: col.amount + 1 } : col
+      )
+    );
+      getComingItems(cur)
     setMatrix(matrixCount);
     setSumRow(getSumRow(matrixCount));
     setAverageCol(getAverageCol(matrixCount));
   };
 
-  const getComingItems = (cur) => {
+  const getComingItems = cur => {
     const comingItem = Array.from(
-          matrix.flatMap((cell: { id: string, amount: number }) => cell)
-        )
-          .sort(
-            (
-              a: { id: string, amount: number },
-              b: { id: string, amount: number }
-            ) =>
-              Math.abs(cur.amount - a.amount) -
-              Math.abs(cur.amount - b.amount)
-          )
-          .slice(0, Number(x) + 1)
-          .map((elem: {}) => {
-            return elem.id;
-          });
-        setComingItems(comingItem);
+      matrix.flatMap((cell: { id: string, amount: number }) => cell)
+    )
+      .sort(
+        (
+          a: { id: string, amount: number },
+          b: { id: string, amount: number }
+        ) => Math.abs(cur.amount - a.amount) - Math.abs(cur.amount - b.amount)
+      )
+      .slice(0, Number(x) + 1)
+      .map((elem: {}) => {
+        return elem.id;
+      });
+    setComingItems(comingItem);
   };
 
-  const clearStateComing = () => setComingItems([]);
+  const clearStateComing = () => {
+    setComingItems([]);
+  };
+
+  const setIsComingRowBool = (row: [{ id: string, amount: number }]) =>
+      row
+          .map(cell => comingItems.some((id: string) => id === cell.id))
+          .some((col: boolean) => col);
 
   return (
     <div>
@@ -98,6 +106,7 @@ const App = () => {
         <tbody>
           {matrix.map((row, rowI) => (
             <Row
+                setIsComingRowBool={setIsComingRowBool(row)}
               getComingItems={getComingItems}
               // isComingRow={}
               // isPercent={indexSumRow == rowI}
