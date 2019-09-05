@@ -3,13 +3,15 @@ import Row from "./Row";
 import "./App.css";
 
 const App = () => {
-  const [m] = useState(20);
-  const [n] = useState(20);
-  const [x] = useState(10);
+  const [m] = useState(10);
+  const [n] = useState(10);
+  const [x] = useState(20);
   const [matrix, setMatrix] = useState([]);
   const [sumRow, setSumRow] = useState([]);
   const [averageCol, setAverageCol] = useState([]);
   const [comingItems, setComingItems] = useState([]);
+  const [percentRow, setPercentRow] = useState([]);
+  const [nowIndex, setNowIndex] = useState(null);
 
   const getRandomNumber = (min: number, max: number) =>
     Math.floor(Math.random() * (max - min) + min);
@@ -65,7 +67,7 @@ const App = () => {
         col.id === cur.id ? { ...col, amount: col.amount + 1 } : col
       )
     );
-      getComingItems(cur)
+      getComingItems(cur);
     setMatrix(matrixCount);
     setSumRow(getSumRow(matrixCount));
     setAverageCol(getAverageCol(matrixCount));
@@ -92,6 +94,18 @@ const App = () => {
     setComingItems([]);
   };
 
+  const getPercentRow = indexSum => {
+    const percentRowFunction = matrix[indexSum].map(cell =>
+      parseFloat((cell.amount * 100) / sumRow[indexSum]).toFixed(1)
+    );
+    setPercentRow(percentRowFunction);
+    setNowIndex(indexSum);
+  };
+
+  const clearStateRowPercent = () => {
+    setNowIndex(null);
+  };
+
   const setIsComingRowBool = (row: [{ id: string, amount: number }]) =>
       row
           .map(cell => comingItems.some((id: string) => id === cell.id))
@@ -106,8 +120,10 @@ const App = () => {
         <tbody>
           {matrix.map((row, rowI) => (
             <Row
+                clearStateRowPercent={clearStateRowPercent}
                 setIsComingRowBool={setIsComingRowBool(row)}
               getComingItems={getComingItems}
+                getPercentRow={getPercentRow}
               // isComingRow={}
               // isPercent={indexSumRow == rowI}
               // rowSumIndex={indexSumRow}
@@ -115,7 +131,7 @@ const App = () => {
               key={rowI}
               rowI={rowI}
               sumRow={sumRow[rowI]}
-              row={row}
+              row={nowIndex===rowI ? percentRow : row}
               counter={counter}
               // percentRow={percentRow}
               comingItems={comingItems}

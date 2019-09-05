@@ -9,7 +9,7 @@ const Cell = ({
   updateCurComing,
   isComingCell,
   clearStateComing,
-  getPercentRow,
+  getIndexRow,
   rowI,
   clearStateRowPercent,
   changeBackgroundPercent
@@ -18,8 +18,8 @@ const Cell = ({
     if (updateCurComing && cellValue) {
       updateCurComing(cellValue);
     }
-    if (getPercentRow && !cellValue) {
-      getPercentRow(rowI);
+    if (getIndexRow && !cellValue) {
+      getIndexRow(rowI);
     }
     // else if (!updateCurComing) {
     //     clearStateComing()
@@ -37,7 +37,9 @@ const Cell = ({
 
   return (
     <td
-      onClick={cellValue!==undefined ? () => updateCurCounter(cellValue): null}
+      onClick={
+        cellValue !== undefined ? () => updateCurCounter(cellValue) : null
+      }
       onMouseEnter={hover}
       onMouseLeave={leaveCurson}
       style={changeBackgroundPercent}
