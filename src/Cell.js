@@ -46,7 +46,6 @@ const Cell = ({
           : classSumRow || classAverageCol || "matrixCellElem"
       }
     >
-      {/*{console.log("CELL")}*/}
       {col}
     </td>
   );

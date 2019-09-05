@@ -55,7 +55,6 @@ const Row = ({
           col={col.amount || col}
         />
       ))}
-      {console.log("ROW")}
       {sumRow !== undefined && sumRow.length !== 0 ? (
         <Cell
           clearStateRowPercent={clearStateRowPercent}

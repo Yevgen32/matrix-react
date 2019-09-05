@@ -37,7 +37,6 @@ const App = () => {
     );
 
   const getSumRow = (matrix: []): [] => {
-    console.log("SUM");
     return matrix.map((item: []) =>
       item.reduce((acc, cur: { id: string, amount: number }) => {
         return acc + cur.amount;
@@ -46,7 +45,6 @@ const App = () => {
   };
 
   const getAverageCol = (matrix: []): [] => {
-    console.log("Average");
     return matrix
       .flatMap((it: []) => it)
       .reduce(
