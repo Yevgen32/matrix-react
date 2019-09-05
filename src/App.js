@@ -36,15 +36,18 @@ const App = () => {
       )
     );
 
-  const getSumRow = (matrix: []): [] =>
-    matrix.map((item: []) =>
+  const getSumRow = (matrix: []): [] => {
+    console.log("SUM");
+    return matrix.map((item: []) =>
       item.reduce((acc, cur: { id: string, amount: number }) => {
         return acc + cur.amount;
       }, 0)
     );
+  };
 
-  const getAverageCol = (matrix: []): [] =>
-    matrix
+  const getAverageCol = (matrix: []): [] => {
+    console.log("Average");
+    return matrix
       .flatMap((it: []) => it)
       .reduce(
         (acc, item: { id: string, amount: number }, i) => (
@@ -53,13 +56,14 @@ const App = () => {
         Array.apply(0, Array(matrix[0].length)).map(() => 0)
       )
       .map((item: { id: string, amount: number }) => Math.floor(item / n));
+  };
 
-  function initState() {
+  const initState = () => {
     const matrix = createMatrix(m, n);
     setMatrix(matrix);
     setSumRow(getSumRow(matrix));
     setAverageCol(getAverageCol(matrix));
-  }
+  };
 
   const counter = cur => {
     const matrixCount = matrix.map(row =>
@@ -67,7 +71,7 @@ const App = () => {
         col.id === cur.id ? { ...col, amount: col.amount + 1 } : col
       )
     );
-      getComingItems(cur);
+    getComingItems(cur);
     setMatrix(matrixCount);
     setSumRow(getSumRow(matrixCount));
     setAverageCol(getAverageCol(matrixCount));
@@ -108,9 +112,9 @@ const App = () => {
   };
 
   const setIsComingRowBool = (row: [{ id: string, amount: number }]) =>
-      row
-          .map(cell => comingItems.some((id: string) => id === cell.id))
-          .some((col: boolean) => col);
+    row
+      .map(cell => comingItems.some((id: string) => id === cell.id))
+      .some((col: boolean) => col);
 
   return (
     <div>
@@ -121,21 +125,17 @@ const App = () => {
         <tbody>
           {matrix.map((row, rowI) => (
             <Row
-                percentRow={percentRow}
-                clearStateRowPercent={clearStateRowPercent}
-                setIsComingRowBool={setIsComingRowBool(row)}
+              percentRow={percentRow}
+              clearStateRowPercent={clearStateRowPercent}
               getComingItems={getComingItems}
-                getPercentRow={getPercentRow}
-              isComingRow={setIsComingRowBool}
-              // isPercent={indexSumRow == rowI}
-              // rowSumIndex={indexSumRow}
+              getPercentRow={getPercentRow}
+              isComingRow={setIsComingRowBool(row)}
               clearStateComing={clearStateComing}
               key={rowI}
               rowI={rowI}
               sumRow={sumRow[rowI]}
-              row={nowIndex===rowI ? percentRow : row}
+              row={nowIndex === rowI ? percentRow : row}
               counter={counter}
-              // percentRow={percentRow}
               comingItems={comingItems}
             />
           ))}

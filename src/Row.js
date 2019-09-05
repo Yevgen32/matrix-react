@@ -13,7 +13,7 @@ const Row = ({
   getPercentRow,
   isComingRow,
   clearStateRowPercent,
-               percentRow
+  percentRow
 }) => {
   const updateCurCounter = cur => counter(cur);
   const updateCurComing = cur => (getComingItems ? getComingItems(cur) : null);
@@ -23,8 +23,7 @@ const Row = ({
   };
 
   const changeBackgroundPercent = j => {
-    if (      percentRow !== undefined &&
-        percentRow.length !== 0) {
+    if (percentRow !== undefined && percentRow.length !== 0) {
       return {
         background:
           ("linear-gradient(white ": string) +
@@ -56,14 +55,13 @@ const Row = ({
           col={col.amount || col}
         />
       ))}
+      {console.log("ROW")}
       {sumRow !== undefined && sumRow.length !== 0 ? (
         <Cell
           clearStateRowPercent={clearStateRowPercent}
           key={"RowI_" + rowI}
           col={sumRow}
           getIndexRow={getIndexRow}
-          // getPercentRow={getPercentRow}
-          // clearStateRowPercent={clearStateRowPercent}
           rowI={rowI}
           classSumRow="sumRow"
         />
@@ -73,16 +71,16 @@ const Row = ({
 };
 
 const rowEqual = (prevProps, nextProps) => {
-  if (prevProps.row !== nextProps.row) {
-    return false;
-  }
-  if (prevProps.rowI !== nextProps.rowI) {
-    return false;
-  }
   if (prevProps.sumRow !== nextProps.sumRow) {
     return false;
   }
-  if (prevProps.setIsComingRowBool !== nextProps.setIsComingRowBool) {
+  if (prevProps.row !== nextProps.row) {
+    return false;
+  }
+  if (prevProps.isComingRow !== nextProps.isComingRow) {
+    return false;
+  }
+  if (prevProps.rowI !== nextProps.rowI) {
     return false;
   }
   return true;

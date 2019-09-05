@@ -15,15 +15,12 @@ const Cell = ({
   changeBackgroundPercent
 }) => {
   const hover = () => {
-    if (updateCurComing && cellValue) {
+    if (updateCurComing !== undefined && cellValue) {
       updateCurComing(cellValue);
     }
-    if (getIndexRow && !cellValue) {
+    if (rowI !== undefined) {
       getIndexRow(rowI);
     }
-    // else if (!updateCurComing) {
-    //     clearStateComing()
-    // }
   };
 
   const leaveCurson = () => {
@@ -49,6 +46,7 @@ const Cell = ({
           : classSumRow || classAverageCol || "matrixCellElem"
       }
     >
+      {/*{console.log("CELL")}*/}
       {col}
     </td>
   );
