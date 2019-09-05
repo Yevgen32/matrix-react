@@ -16,6 +16,7 @@
     "flow": "flow",
     "flow stop": "flow stop",
     "flow-coverage": "flow-coverage-report -i 'src/**/*.js' -i 'src/**/*.jsx' -x 'src/**/*.test.js' -t html -t json -t text --threshold 90"
+    "server": "node server.js"
   },
   "eslintConfig": {
     "extends": "react-app"

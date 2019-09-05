@@ -3,8 +3,8 @@ import Row from "./Row";
 import "./App.css";
 
 const App = () => {
-  const [m] = useState(10);
-  const [n] = useState(10);
+  const [m] = useState(100);
+  const [n] = useState(100);
   const [x] = useState(20);
   const [matrix, setMatrix] = useState([]);
   const [sumRow, setSumRow] = useState([]);
@@ -104,6 +104,7 @@ const App = () => {
 
   const clearStateRowPercent = () => {
     setNowIndex(null);
+    setPercentRow([]);
   };
 
   const setIsComingRowBool = (row: [{ id: string, amount: number }]) =>
@@ -120,11 +121,12 @@ const App = () => {
         <tbody>
           {matrix.map((row, rowI) => (
             <Row
+                percentRow={percentRow}
                 clearStateRowPercent={clearStateRowPercent}
                 setIsComingRowBool={setIsComingRowBool(row)}
               getComingItems={getComingItems}
                 getPercentRow={getPercentRow}
-              // isComingRow={}
+              isComingRow={setIsComingRowBool}
               // isPercent={indexSumRow == rowI}
               // rowSumIndex={indexSumRow}
               clearStateComing={clearStateComing}

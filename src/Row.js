@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Cell from "./Cell";
 
 const Row = ({
@@ -11,7 +11,9 @@ const Row = ({
   comingItems,
   clearStateComing,
   getPercentRow,
-               clearStateRowPercent
+  isComingRow,
+  clearStateRowPercent,
+               percentRow
 }) => {
   const updateCurCounter = cur => counter(cur);
   const updateCurComing = cur => (getComingItems ? getComingItems(cur) : null);
@@ -20,43 +22,43 @@ const Row = ({
     getPercentRow(indexSum);
   };
 
-  // const changeBackgroundPercent = j => {
-  //   if (rowI === nowIndex) {
-  //     return {
-  //       background:
-  //         ("linear-gradient(white ": string) +
-  //         (100 - percentRow[j]) +
-  //         ("%, yellow ": string) +
-  //         percentRow[j] +
-  //         ("%)": string),
-  //       fontWeight: "bold"
-  //     };
-  //   } else {
-  //     return null;
-  //   }
-  // };
+  const changeBackgroundPercent = j => {
+    if (      percentRow !== undefined &&
+        percentRow.length !== 0) {
+      return {
+        background:
+          ("linear-gradient(white ": string) +
+          (100 - percentRow[j]) +
+          ("%, yellow ": string) +
+          percentRow[j] +
+          ("%)": string),
+        fontWeight: "bold"
+      };
+    } else {
+      return null;
+    }
+  };
 
   return (
     <tr>
-      {/*{(rowI === nowIndex ? percentRow : row).map((col, colI) => (*/}
       {row.map((col, colI) => (
         <Cell
           isComingCell={
-            comingItems ? comingItems.some(id => col.id === id) : false
+            comingItems ? comingItems.some(id => col.id === id) : null
           }
-          key={col.id||colI}
+          key={col.id || colI}
           cellValue={col}
           clearStateComing={clearStateComing}
           updateCurComing={updateCurComing}
           updateCurCounter={updateCurCounter}
-          // changeBackgroundPercent={changeBackgroundPercent(colI)}
+          changeBackgroundPercent={changeBackgroundPercent(colI)}
           classAverageCol={classAverageCol}
           col={col.amount || col}
         />
       ))}
       {sumRow !== undefined && sumRow.length !== 0 ? (
         <Cell
-            clearStateRowPercent={clearStateRowPercent}
+          clearStateRowPercent={clearStateRowPercent}
           key={"RowI_" + rowI}
           col={sumRow}
           getIndexRow={getIndexRow}

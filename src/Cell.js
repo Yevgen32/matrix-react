@@ -40,8 +40,8 @@ const Cell = ({
       onClick={
         cellValue !== undefined ? () => updateCurCounter(cellValue) : null
       }
-      onMouseEnter={hover}
-      onMouseLeave={leaveCurson}
+      onMouseOver={hover}
+      onMouseOut={leaveCurson}
       style={changeBackgroundPercent}
       className={
         isComingCell
