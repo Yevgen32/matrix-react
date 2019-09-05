@@ -3,108 +3,108 @@ import React, { Component } from "react";
 import Cell from "./Cell";
 
 type Props = {
-    getComingItem: {} | void,
-    comingItem: [],
-    rowIndex: number,
-    row: [],
-    sumRow: number,
-    changeBackgroundStyle: {} | void,
-    percentRow: [],
-    isComingRowBool: boolean,
-    onClickElem: void,
-    clearStateComing: void,
-    clearStateIndexSumRow: void,
-    classAverageCol: void
+  getComingItem: {} | void,
+  comingItem: [],
+  rowIndex: number,
+  row: [],
+  sumRow: number,
+  changeBackgroundStyle: {} | void,
+  percentRow: [],
+  isComingRowBool: boolean,
+  onClickElem: void,
+  clearStateComing: void,
+  clearStateIndexSumRow: void,
+  classAverageCol: void
 };
 
 export default class Row extends Component<Props> {
-    shouldComponentUpdate(nextProps: {
-        sumRow: number,
-        row: [{ id: number, amount: number } | number],
-        rowIndex: number,
-        isComingRowBool: boolean
-    }) {
-        if (this.props.sumRow !== nextProps.sumRow) {
-            return true;
-        }
-        if (this.props.row !== nextProps.row) {
-            return true;
-        }
-        if (this.props.rowIndex !== nextProps.rowIndex) {
-            return true;
-        }
-        if (this.props.isComingRowBool !== nextProps.isComingRowBool) {
-            return true;
-        }
-        return false;
+  shouldComponentUpdate(nextProps: {
+    sumRow: number,
+    row: [{ id: number, amount: number } | number],
+    rowIndex: number,
+    isComingRowBool: boolean
+  }) {
+    if (this.props.sumRow !== nextProps.sumRow) {
+      return true;
     }
-
-    updateIndexSum = (index: number) => this.props.getPercentRow(index);
-
-    getCurrentValue = (cur: {}) => this.props.getComingItem(cur);
-
-    changeBackgroundStyle: { background: number } | void = (j: number) => {
-        if (
-            this.props.percentRow !== undefined &&
-            this.props.percentRow.length !== 0
-        ) {
-            return {
-                background:
-                    ("linear-gradient(white ": string) +
-                    (100 - this.props.percentRow[j]) +
-                    ("%, yellow ": string) +
-                    this.props.percentRow[j] +
-                    ("%)": string),
-                fontWeight: "bold"
-            };
-        } else {
-            return null;
-        }
-    };
-
-    render() {
-        const {
-            row,
-            sumRow,
-            comingItem,
-            onClickElem,
-            rowIndex,
-            clearStateComing,
-            clearStateIndexSumRow,
-            classAverageCol
-        } = this.props;
-        return (
-            <tr>
-                {/*{console.log("row")}*/}
-                {row.map((col: number & { id: string, amount: number }, j) => (
-                    <Cell
-                        currentValue={this.getCurrentValue}
-                        backgroundStyle={this.changeBackgroundStyle(j)}
-                        key={col.id || j}
-                        onClickElem={onClickElem}
-                        cellObject={col}
-                        col={(col.amount: number) || col}
-                        isComingBool={
-                            comingItem !== undefined
-                                ? comingItem.some((item: string) => item === col.id)
-                                : null
-                        }
-                        classAverageCol={classAverageCol}
-                        clearStateComing={clearStateComing}
-                    />
-                ))}
-                {
-                    <Cell
-                        clearStateIndexSumRow={clearStateIndexSumRow}
-                        classSum="sumRow"
-                        col={sumRow}
-                        updateIndexSum={this.updateIndexSum}
-                        rowIndex={rowIndex}
-                    />
-                }
-            </tr>
-        );
+    if (this.props.row !== nextProps.row) {
+      return true;
     }
+    if (this.props.rowIndex !== nextProps.rowIndex) {
+      return true;
+    }
+    if (this.props.isComingRowBool !== nextProps.isComingRowBool) {
+      return true;
+    }
+    return false;
+  }
+
+  updateIndexSum = (index: number) => this.props.getPercentRow(index);
+
+  getCurrentValue = (cur: {}) => this.props.getComingItem(cur);
+
+  changeBackgroundStyle: { background: number } | void = (j: number) => {
+    if (
+      this.props.percentRow !== undefined &&
+      this.props.percentRow.length !== 0
+    ) {
+      return {
+        background:
+          ("linear-gradient(white ": string) +
+          (100 - this.props.percentRow[j]) +
+          ("%, yellow ": string) +
+          this.props.percentRow[j] +
+          ("%)": string),
+        fontWeight: "bold"
+      };
+    } else {
+      return null;
+    }
+  };
+
+  render() {
+    const {
+      row,
+      sumRow,
+      comingItem,
+      onClickElem,
+      rowIndex,
+      clearStateComing,
+      clearStateIndexSumRow,
+      classAverageCol
+    } = this.props;
+    return (
+      <tr>
+        {/*{console.log("row")}*/}
+        {row.map((col: number & { id: string, amount: number }, j) => (
+          <Cell
+            currentValue={this.getCurrentValue}
+            backgroundStyle={this.changeBackgroundStyle(j)}
+            key={col.id || j}
+            onClickElem={onClickElem}
+            cellObject={col}
+            col={(col.amount: number) || col}
+            isComingBool={
+              comingItem !== undefined
+                ? comingItem.some((item: string) => item === col.id)
+                : null
+            }
+            classAverageCol={classAverageCol}
+            clearStateComing={clearStateComing}
+          />
+        ))}
+        {
+          <Cell
+            clearStateIndexSumRow={clearStateIndexSumRow}
+            classSum="sumRow"
+            col={sumRow}
+            updateIndexSum={this.updateIndexSum}
+            rowIndex={rowIndex}
+          />
+        }
+      </tr>
+    );
+  }
 }
 
 // const Row = React.memo(
@@ -167,4 +167,3 @@ export default class Row extends Component<Props> {
 //         return true;
 //     }
 // );
-

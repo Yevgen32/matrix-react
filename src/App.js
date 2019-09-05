@@ -1,105 +1,85 @@
-//@flow
-import React, { Component } from "react";
-import Row from "./Row.js";
+import React, { useState } from "react";
+import Row from "./Row";
 import "./App.css";
 
-type Props = {};
-type State = {
-  m: number,
-  n: number,
-  x: number,
-  matrix: [[{ id: string, amount: number }]],
-  sumRow: [number],
-  averageCol: [number],
-  comingItem: [number],
-  indexSum: number,
-  percentRow: [number]
-};
+const App = () => {
+  const [m] = useState(100);
+  const [n] = useState(100);
+  const [x] = useState(20);
+  const [matrix, setMatrix] = useState([]);
+  const [sumRow, setSumRow] = useState([]);
+  const [averageCol, setAverageCol] = useState([]);
+  const [comingItems, setComingItems] = useState([]);
+  const [percentRow, setPercentRow] = useState([]);
+  const [nowIndex, setNowIndex] = useState(null);
 
-export default class App extends Component<Props, State> {
-  state = {
-    m: 100,
-    n: 100,
-    x: 30,
-    matrix: [],
-    sumRow: [],
-    averageCol: [],
-    comingItem: [],
-    percentRow: [],
-    indexSum: null
-  };
-
-  getRandomNumber = (min: number, max: number) =>
+  const getRandomNumber = (min: number, max: number) =>
     Math.floor(Math.random() * (max - min) + min);
 
-  generationId = () =>
+  const generationId = () =>
     "_" +
     Math.random()
       .toString(36)
       .substr(2, 5);
 
-  getObjectCell = (value: number) => {
+  const getObjectCell = (value: number) => {
     return {
-      id: this.generationId(),
+      id: generationId(),
       amount: value
     };
   };
 
-  createMatrix = (rows: number, cols: number): {} =>
+  const createMatrix = (rows, cols) =>
     Array.from({ length: cols }, () =>
       Array.from({ length: rows }, () =>
-        this.getObjectCell(this.getRandomNumber(100, 999))
+        getObjectCell(getRandomNumber(100, 999))
       )
     );
 
-  getSumRow = (matrix: [[{ id: string, amount: number }]]) =>
-    matrix.map((item: []) =>
+  const getSumRow = (matrix: []): [] => {
+    console.log("SUM");
+    return matrix.map((item: []) =>
       item.reduce((acc, cur: { id: string, amount: number }) => {
         return acc + cur.amount;
       }, 0)
     );
+  };
 
-  getAverageCol = (matrix: [[{ id: string, amount: number }]]) =>
-    matrix
-      .flatMap((it: []) => it)
-      .reduce(
-        (acc, item: { id: string, amount: number }, i) => (
-          (acc[i % matrix[0].length] += item.amount), acc
-        ),
-        Array.apply(0, Array(matrix[0].length)).map(() => 0)
-      )
-      .map((item: { id: string, amount: number }) =>
-        Math.floor(item / this.state.n)
-      );
-
-  counter = (cur: { id: string, amount: number }) => {
-    const counterMatrix = this.state.matrix.map(
-      (row: [{ id: string, amount: number }]) =>
-        row.map((col: { id: string, amount: number }) =>
-          col.id === cur.id ? { ...col, amount: col.amount + 1 } : col
+  const getAverageCol = (matrix: []): [] => {
+    console.log("Average");
+    return matrix
+        .flatMap((it: []) => it)
+        .reduce(
+            (acc, item: { id: string, amount: number }, i) => (
+                (acc[i % matrix[0].length] += item.amount), acc
+            ),
+            Array.apply(0, Array(matrix[0].length)).map(() => 0)
         )
+        .map((item: { id: string, amount: number }) => Math.floor(item / n));
+  };
+
+  const initState = () => {
+    const matrix = createMatrix(m, n);
+    setMatrix(matrix);
+    setSumRow(getSumRow(matrix));
+    setAverageCol(getAverageCol(matrix));
+  };
+
+  const counter = cur => {
+    const matrixCount = matrix.map(row =>
+      row.map(col =>
+        col.id === cur.id ? { ...col, amount: col.amount + 1 } : col
+      )
     );
-    this.getComingItem(cur);
-    this.setState({
-      matrix: counterMatrix,
-      sumRow: this.getSumRow(counterMatrix),
-      averageCol: this.getAverageCol(counterMatrix)
-    });
+    getComingItems(cur);
+    setMatrix(matrixCount);
+    setSumRow(getSumRow(matrixCount));
+    setAverageCol(getAverageCol(matrixCount));
   };
 
-  initState = () => {
-    const matrix = this.createMatrix(this.state.m, this.state.n);
-    const sumRow = this.getSumRow(matrix);
-    this.setState({
-      matrix: matrix,
-      sumRow: sumRow,
-      averageCol: this.getAverageCol(matrix)
-    });
-  };
-
-  getComingItem = (cur: { id: string, amount: number }) => {
+  const getComingItems = cur => {
     const comingItem = Array.from(
-      this.state.matrix.flatMap((cell: { id: string, amount: number }) => cell)
+      matrix.flatMap((cell: { id: string, amount: number }) => cell)
     )
       .sort(
         (
@@ -107,75 +87,65 @@ export default class App extends Component<Props, State> {
           b: { id: string, amount: number }
         ) => Math.abs(cur.amount - a.amount) - Math.abs(cur.amount - b.amount)
       )
-      .slice(0, Number(this.state.x) + 1)
-      .map((elem: { id: string, amount: number }) => {
+      .slice(0, Number(x) + 1)
+      .map((elem: {}) => {
         return elem.id;
       });
-
-    this.setState({
-      comingItem: comingItem
-    });
+    setComingItems(comingItem);
   };
 
-  getPercentRow = (indexSum: number) => {
-    const percentRow: [] = this.state.matrix[indexSum].map(cell =>
-      parseFloat((cell.amount * 100) / this.state.sumRow[indexSum]).toFixed(1)
+  const clearStateComing = () => {
+    setComingItems([]);
+  };
+
+  const getPercentRow = indexSum => {
+    const percentRowFunction = matrix[indexSum].map(cell =>
+      parseFloat((cell.amount * 100) / sumRow[indexSum]).toFixed(1)
     );
-    this.setState({ percentRow: percentRow, indexSum: indexSum });
+    setPercentRow(percentRowFunction);
+    setNowIndex(indexSum);
   };
 
-  clearStateIndexSumRow = () => {
-    this.setState({
-      indexSum: null,
-      percentRow: []
-    });
+  const clearStateRowPercent = () => {
+    setNowIndex(null);
+    setPercentRow([]);
   };
 
-  clearStateComing = () => {
-    this.setState({
-      comingItem: []
-    });
-  };
-
-  //
-  setIsComingRowBool = (row: [{ id: string, amount: number }]) =>
+  const setIsComingRowBool = (row: [{ id: string, amount: number }]) =>
     row
-      .map(cell => this.state.comingItem.some((col: string) => col === cell.id))
+      .map(cell => comingItems.some((id: string) => id === cell.id))
       .some((col: boolean) => col);
 
-  render() {
-    return (
-      <div>
-        <button className="elemCreate" onClick={this.initState}>
-          click
-        </button>
-        <table>
-          <tbody>
-            {this.state.matrix.map(
-              (row: [{ id: string, amount: number }], i: number) => (
-                <Row
-                  key={i}
-                  row={i === this.state.indexSum ? this.state.percentRow : row}
-                  onClickElem={this.counter}
-                  sumRow={this.state.sumRow[i]}
-                  comingItem={this.state.comingItem}
-                  getComingItem={this.getComingItem}
-                  getPercentRow={this.getPercentRow}
-                  rowIndex={i}
-                  percentRow={this.state.percentRow}
-                  //bool
-                  isComingRowBool={this.setIsComingRowBool(row)}
-                  clearStateComing={this.clearStateComing}
-                  clearStateIndexSumRow={this.clearStateIndexSumRow}
-                />
-              )
-            )}
-            {this.state.averageCol.length !== 0 ? (
-              <Row classAverageCol="sumColumn" row={this.state.averageCol} />
-            ) : null}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <button className="elemCreate" onClick={initState}>
+        create
+      </button>
+      <table>
+        <tbody>
+          {matrix.map((row, rowI) => (
+            <Row
+              percentRow={percentRow}
+              clearStateRowPercent={clearStateRowPercent}
+              getComingItems={getComingItems}
+              getPercentRow={getPercentRow}
+              isComingRow={setIsComingRowBool(row)}
+              clearStateComing={clearStateComing}
+              key={rowI}
+              rowI={rowI}
+              sumRow={sumRow[rowI]}
+              row={nowIndex === rowI ? percentRow : row}
+              counter={counter}
+              comingItems={comingItems}
+            />
+          ))}
+          {averageCol.length !== 0 ? (
+            <Row key="rowKey1" classAverageCol="sumColumn" row={averageCol} />
+          ) : null}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default App;

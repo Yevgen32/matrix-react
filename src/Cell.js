@@ -35,8 +35,8 @@ export default class Cell extends Component<Props> {
       this.props.updateIndexSum(this.props.rowIndex);
     }
     if (
-        this.props.currentValue !== undefined &&
-        this.props.cellObject.id !== undefined
+      this.props.currentValue !== undefined &&
+      this.props.cellObject.id !== undefined
     ) {
       this.props.currentValue(this.props.cellObject);
     }
@@ -63,25 +63,25 @@ export default class Cell extends Component<Props> {
       classAverageCol
     } = this.props;
     return col !== undefined ? (
-        <td
-            onMouseOver={this.hoverElem}
-            onClick={
-              this.props.cellObject !== undefined &&
-              this.props.onClickElem !== undefined
-                  ? () => this.props.onClickElem(cellObject)
-                  : null
-            }
-            className={
-              isComingBool
-                  ? "comingItemStyle"
-                  : this.props.classSum || classAverageCol || "matrixCellElem"
-            }
-            style={backgroundStyle}
-            onMouseLeave={this.mouseLeave}
-        >
-          {/*{console.log("CELL!!!")}*/}
-          {col}
-        </td>
+      <td
+        onMouseOver={this.hoverElem}
+        onClick={
+          this.props.cellObject !== undefined &&
+          this.props.onClickElem !== undefined
+            ? () => this.props.onClickElem(cellObject)
+            : null
+        }
+        className={
+          isComingBool
+            ? "comingItemStyle"
+            : this.props.classSum || classAverageCol || "matrixCellElem"
+        }
+        style={backgroundStyle}
+        onMouseLeave={this.mouseLeave}
+      >
+        {/*{console.log("CELL!!!")}*/}
+        {col}
+      </td>
     ) : null;
   }
 }
