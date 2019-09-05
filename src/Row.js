@@ -72,20 +72,20 @@ const Row = ({
   );
 };
 
-// const rowEqual = (prevProps, nextProps) => {
-//   if (prevProps.row !== nextProps.row) {
-//     return false;
-//   }
-//   if (prevProps.rowI !== nextProps.rowI) {
-//     return false;
-//   }
-//   if (prevProps.sumRow !== nextProps.sumRow) {
-//     return false;
-//   }
-//   if (prevProps.setIsComingRowBool !== nextProps.setIsComingRowBool) {
-//     return false;
-//   }
-//   return true;
-// };
+const rowEqual = (prevProps, nextProps) => {
+  if (prevProps.row !== nextProps.row) {
+    return false;
+  }
+  if (prevProps.rowI !== nextProps.rowI) {
+    return false;
+  }
+  if (prevProps.sumRow !== nextProps.sumRow) {
+    return false;
+  }
+  if (prevProps.setIsComingRowBool !== nextProps.setIsComingRowBool) {
+    return false;
+  }
+  return true;
+};
 
-export default React.memo(Row /*, rowEqual*/);
+export default React.memo(Row, rowEqual);
